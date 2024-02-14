@@ -3,7 +3,7 @@ import { LoadRequestData } from 'chromecast-caf-receiver/cast.framework.messages
 import { CAFDrmConfig, CAFMediaInfoCustomData, CAFSourceOptions } from 'bitmovin-player';
 
 const CAST_MESSAGE_NAMESPACE = 'urn:x-cast:com.bitmovin.player.caf';
-
+declare const cast: any; 
 export default class CAFReceiver {
   private readonly player: PlayerManager;
   private readonly context: CastReceiverContext;
@@ -17,7 +17,9 @@ export default class CAFReceiver {
     // cast.framework.CastReceiverContext.getInstance().setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
 
     this.attachEvents();
-    this.context.start();
+    let castReceiverOptions = new cast.framework.CastReceiverOptions();
+    castReceiverOptions.useShakaForHls = true;
+    this.context.start(castReceiverOptions);  
   }
 
   private attachEvents() {
